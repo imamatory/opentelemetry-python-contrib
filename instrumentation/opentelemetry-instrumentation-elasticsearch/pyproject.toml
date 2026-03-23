@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "opentelemetry-instrumentation-elasticsearch"
+name = "opentelemetry-instrumentation-elasticsearch-fixed-sanitizer"
 dynamic = ["version"]
 description = "OpenTelemetry elasticsearch instrumentation"
 readme = "README.rst"
@@ -27,8 +27,8 @@ classifiers = [
 ]
 dependencies = [
   "opentelemetry-api ~= 1.12",
-  "opentelemetry-instrumentation == 0.62b0",
-  "opentelemetry-semantic-conventions == 0.62b0",
+  "opentelemetry-instrumentation == 0.61b0",
+  "opentelemetry-semantic-conventions == 0.61b0",
   "wrapt >= 1.0.0, < 2.0.0",
 ]
 
