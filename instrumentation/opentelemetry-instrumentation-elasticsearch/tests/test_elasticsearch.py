@@ -84,7 +84,7 @@ class TestElasticsearchIntegration(TestBase):
         "elasticsearch.method": helpers.dsl_search_method,
         "elasticsearch.target": "test-index",
         DB_STATEMENT: str(
-            {"query": {"bool": {"filter": [{"term": {"author": "?"}}]}}}
+            {"query": {"bool": {"filter": "?"}}}
         ),
     }
 
@@ -421,8 +421,8 @@ class TestElasticsearchIntegration(TestBase):
         self.assertEqual(
             literal_eval(span.attributes[DB_STATEMENT]),
             {
-                "body": "?",
-                "title": "?",
+                "body": "A few words here, a few words there",
+                "title": "About searching",
             },
         )
 

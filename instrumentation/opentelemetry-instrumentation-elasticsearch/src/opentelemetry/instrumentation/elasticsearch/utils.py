@@ -13,25 +13,47 @@
 # limitations under the License.
 import json
 
+sanitized_keys = (
+    "message",
+    "should",
+    "filter",
+    "query",
+    "queries",
+    "intervals",
+    "match",
+    "term",
+    "terms",
+    "range",
+    "script",
+    "source",
+    "lang",
+    "params",
+    "aggs",
+    "field",
+    "highlight",
+    "wildcard",
+    "regexp",
+    "prefix",
+    "value",
+)
 sanitized_value = "?"
 
 
-def _mask_leaf_nodes(obj):
-    """
-    Recursively traverses JSON structure and masks leaf node values.
-    Leaf nodes are final values that are no longer dict or list.
-    """
-    if isinstance(obj, dict):
-        return {key: _mask_leaf_nodes(value) for key, value in obj.items()}
-    if isinstance(obj, list):
-        return [_mask_leaf_nodes(item) for item in obj]
-    # Mask leaf node
-    return sanitized_value
+def sanitize_dict(d):
+    sanitized_copy = {}
+    for key, value in d.items():
+        if isinstance(value, dict):
+            sanitized_copy[key] = sanitize_dict(value)
+        elif key in sanitized_keys:
+            sanitized_copy[key] = sanitized_value
+        else:
+            sanitized_copy[key] = value
+    return sanitized_copy
 
 
 def sanitize_body(body) -> str:
     if isinstance(body, str):
         body = json.loads(body)
 
-    masked_body = _mask_leaf_nodes(body)
-    return str(masked_body)
+    sanitized_body = sanitize_dict(body)
+    return str(sanitized_body)

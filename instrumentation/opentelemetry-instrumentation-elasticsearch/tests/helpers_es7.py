@@ -17,11 +17,11 @@ dsl_create_statement = {
     "mappings": {
         "properties": {
             "title": {
-                "analyzer": "?",
-                "fields": {"raw": {"type": "?"}},
-                "type": "?",
+                "analyzer": "snowball",
+                "fields": {"raw": {"type": "keyword"}},
+                "type": "text",
             },
-            "body": {"analyzer": "?", "type": "?"},
+            "body": {"analyzer": "snowball", "type": "text"},
         }
     }
 }

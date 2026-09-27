@@ -61,24 +61,8 @@ interval_query_sanitized = {
         "intervals": {
             "my_text": {
                 "all_of": {
-                    "ordered": "?",
-                    "intervals": [
-                        {
-                            "match": {
-                                "query": "?",
-                                "max_gaps": "?",
-                                "ordered": "?",
-                            }
-                        },
-                        {
-                            "any_of": {
-                                "intervals": [
-                                    {"match": {"query": "?"}},
-                                    {"match": {"query": "?"}},
-                                ]
-                            }
-                        },
-                    ],
+                    "ordered": True,
+                    "intervals": "?",
                 }
             }
         }
@@ -91,13 +75,10 @@ filter_query_sanitized = {
     "query": {
         "bool": {
             "must": [
-                {"match": {"title": "?"}},
-                {"match": {"content": "?"}},
+                {"match": {"title": "Search"}},
+                {"match": {"content": "Elasticsearch"}},
             ],
-            "filter": [
-                {"term": {"status": "?"}},
-                {"range": {"publish_date": {"gte": "?"}}},
-            ],
+            "filter": "?",
         }
     }
 }
@@ -106,9 +87,9 @@ term_query_sanitized = {
     "query": {
         "bool": {
             "must": [
-                {"term": {"user_email": "?"}},
-                {"term": {"ssn": "?"}},
-                {"term": {"credit_card": "?"}},
+                {"term": {"user_email": "john.doe@company.com"}},
+                {"term": {"ssn": "123-45-6789"}},
+                {"term": {"credit_card": "4111-1111-1111-1111"}},
             ]
         }
     }
@@ -141,15 +122,15 @@ aggregation_query_sanitized = {
             "range": {
                 "field": "?",
                 "ranges": [
-                    {"to": "?", "key": "?"},
-                    {"from": "?", "to": "?", "key": "?"},
-                    {"from": "?", "key": "?"},
+                    {"to": 50, "key": "cheap"},
+                    {"from": 50, "to": 100, "key": "medium"},
+                    {"from": 100, "key": "expensive"},
                 ],
             }
         },
         "avg_price": {"avg": {"field": "?"}},
         "top_tags": {
-            "terms": {"field": "?", "size": "?", "order": {"_count": "?"}}
+            "terms": {"field": "?", "size": 10, "order": {"_count": "desc"}}
         },
     },
 }
@@ -180,13 +161,13 @@ script_query_sanitized = {
             "script": {
                 "source": "?",
                 "lang": "?",
-                "params": {"threshold": "?"},
+                "params": {"threshold": 100},
             }
         }
     },
     "script_fields": {
         "discounted_price": {
-            "script": {"source": "?", "params": {"discount": "?"}}
+            "script": {"source": "?", "params": {"discount": 0.9}}
         }
     },
 }
